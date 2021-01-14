@@ -48,5 +48,5 @@ git clone SSH-адрес_вашего_форка
 
 Репозиторий создан для обучения на интенсивном онлайн‑курсе «[Node.js, уровень 1](https://htmlacademy.ru/intensive/nodejs)» от [HTML Academy](https://htmlacademy.ru).
 
-[travis-image]: https://travis-ci.com/htmlacademy-nodejs/1693173-typoteka-3.svg?branch=master
-[travis-url]: https://travis-ci.com/htmlacademy-nodejs/1693173-typoteka-3
+[travis-image]: https://travis-ci.com/htmlacademy-nodejs/1693173-buy-and-sell-3.svg?branch=master
+[travis-url]: https://travis-ci.com/htmlacademy-nodejs/1693173-buy-and-sell-3
