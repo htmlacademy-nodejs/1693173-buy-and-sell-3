@@ -70,11 +70,11 @@ const getPictureFileName = (num) => {
 
 const generateOffers = (count) => (
   Array(count).fill({}).map(() => ({
-    type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
-    description: shuffle(SENTENCES).slice(1, 5).join(` `),
-    sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
+    description: shuffle(SENTENCES).slice(1, 5).join(` `),
+    type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
+    sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
     category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
   }))
 );
@@ -87,10 +87,10 @@ module.exports = {
     const content = JSON.stringify(generateOffers(countOffer));
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Can't write data to file...`);
+        return console.error(`Не могу записать файл...`);
       }
 
-      return console.info(`Operation success. File created.`);
+      return console.info(`Файл создан.`);
     });
   }
 };
