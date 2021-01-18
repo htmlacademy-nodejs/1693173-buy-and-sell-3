@@ -81,16 +81,21 @@ const generateOffers = (count) => (
 
 module.exports = {
   name: `--generate`,
+  // eslint-disable-next-line consistent-return
   run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    if (countOffer > 1000) {
+      return console.error(`Не больше 1000 объявлений...`);
+    }
+
     const content = JSON.stringify(generateOffers(countOffer));
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Не могу записать файл...`);
+        return console.error(`Can't write data to file...`);
       }
 
-      return console.info(`Файл создан.`);
+      return console.info(`Operation success. File created.`);
     });
   }
 };
