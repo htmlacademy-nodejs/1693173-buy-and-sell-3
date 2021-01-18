@@ -92,10 +92,10 @@ module.exports = {
     const content = JSON.stringify(generateOffers(countOffer));
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Can't write data to file...`);
+        return console.error(`Не могу создать файл...`);
       }
 
-      return console.info(`Operation success. File created.`);
+      return console.info(`Файл успешно создан.`);
     });
   }
 };
