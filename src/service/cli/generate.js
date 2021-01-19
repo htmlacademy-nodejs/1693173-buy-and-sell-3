@@ -9,10 +9,6 @@ const fs = require(`fs`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
-const PictureRestrict = {
-  MIN: 0,
-  MAX: 16
-};
 
 const TITLES = [
   `Продам книги Стивена Кинга.`,
@@ -58,6 +54,10 @@ const OfferType = {
   SALE: `sale`,
 };
 
+const PictureRestrict = {
+  MIN: 0,
+  MAX: 16
+};
 
 const SumRestrict = {
   MIN: 1000,
@@ -65,7 +65,7 @@ const SumRestrict = {
 };
 
 const getPictureFileName = (num) => {
-  return `item` + num + `.jpg`;
+  return `item${num}.jpg`;
 };
 
 const generateOffers = (count) => (
@@ -75,27 +75,28 @@ const generateOffers = (count) => (
     description: shuffle(SENTENCES).slice(1, 5).join(` `),
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-    category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
+    category: shuffle(CATEGORIES).slice(0, (getRandomInt(0, CATEGORIES.length - 1))),
   }))
 );
 
 module.exports = {
   name: `--generate`,
-  // eslint-disable-next-line consistent-return
   run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countOffer > 1000) {
-      return console.error(`Не больше 1000 объявлений...`);
+      console.error(`Не больше 1000 объявлений...`);
+      return;
     }
 
     const content = JSON.stringify(generateOffers(countOffer));
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Не могу создать файл...`);
+        console.error(`Не могу создать файл...`);
+        return;
       }
 
-      return console.info(`Файл успешно создан.`);
+      console.info(`Файл успешно создан.`);
     });
   }
 };
