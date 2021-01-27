@@ -5,7 +5,7 @@ const {
   shuffle,
 } = require(`../../utils`);
 
-const fs = require(`fs`);
+const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 
 const DEFAULT_COUNT = 1;
@@ -82,7 +82,7 @@ const generateOffers = (count) => (
 
 module.exports = {
   name: `--generate`,
-  run(args) {
+  async run(args) {
     const [count] = args;
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countOffer > 1000) {
@@ -91,13 +91,11 @@ module.exports = {
     }
 
     const content = JSON.stringify(generateOffers(countOffer));
-    fs.writeFile(FILE_NAME, content, (err) => {
-      if (err) {
-        console.error(chalk.red(`Не могу создать файл...`));
-        return;
-      }
-
+    try {
+      await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Файл успешно создан.`));
-    });
+    } catch (err) {
+      console.error(chalk.red(`Не могу создать файл...`));
+    }
   }
 };
