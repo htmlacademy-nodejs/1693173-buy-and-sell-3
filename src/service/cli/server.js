@@ -15,6 +15,15 @@ const HttpCode = {
   UNAUTHORIZED: 401,
 };
 
+const readContent = async (filePath) => {
+  try {
+    return await fs.readFile(filePath, `utf8`);
+  } catch (err) {
+    console.error(chalk.red(err));
+    return [];
+  }
+};
+
 module.exports = {
   name: `--server`,
   run(args) {
@@ -44,20 +53,11 @@ module.exports = {
       switch (req.url) {
         case `/`:
           try {
-            const readContent = async (filePath) => {
-              try {
-                return await fs.readFile(filePath, `utf8`);
-              } catch (err) {
-                console.error(chalk.red(err));
-                return [];
-              }
-            };
-
             const mocks = JSON.parse(await readContent(MOCK_FILE_PATH));
             const message = mocks.map((post) => `<li>${post.title}</li>`).join(``);
             sendResponse(res, HttpCode.OK, `<ul>${message}</ul>`);
           } catch (err) {
-            sendResponse(res, HttpCode.NOT_FOUND, notFoundMessageText);
+            sendResponse(res, HttpCode.INTERNAL_SERVER_ERROR, notFoundMessageText);
           }
 
           break;
@@ -72,7 +72,7 @@ module.exports = {
       .listen(serverPort)
       .on(`listening`, (err) => {
         if (err) {
-          return console.error(`Ошибка при создании сервера`, err);
+          return console.error(chalk.red(`Ошибка при создании сервера`), err);
         }
 
         return console.info(chalk.green(`Ожидаю соединений на ${serverPort}`));
